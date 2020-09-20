@@ -1,7 +1,7 @@
 # Personal Assistant (*Alpha*)
 
 ## *Voice Operated Personal Assistant* | *Python mini project*
----
+
 
 ## Features :
 
