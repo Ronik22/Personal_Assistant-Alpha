@@ -1,0 +1,199 @@
+from selenium import webdriver      # selenium should be installed
+from selenium.webdriver.common.keys import Keys
+import os
+import time
+import random
+import datetime
+import pyttsx3                      # pyttx3 should be installed
+import speech_recognition as sr     # speech recognition should be installed
+import pyaudio                      # pyaudio should be installed
+import webbrowser
+from UserData import *              # imports user data from UserData.py
+
+# works on google chrome for now
+driver = webdriver.Chrome()         # chromedriver should be installed
+
+r = sr.Recognizer()
+
+def record_audio(ask=False):    # speech to text
+    with sr.Microphone() as source: # microphone as source
+        if ask:
+            ttsp(ask)
+        audio = r.listen(source)
+        voice_data = ''
+        try:
+            voice_data = r.recognize_google(audio)  # convert speech to text
+        except sr.UnknownValueError: # speech recognizer does not understand
+            ttsp("I didn't get that")
+        except sr.RequestError:
+            ttsp('Sorry, the service is down') # speech recognizer is disconnected
+        print("\n"+YourName+":  "+voice_data.lower()) # print what user said
+        return voice_data.lower()
+
+
+def respond(voice_data):   # conditions
+
+    if there_exists(["hello","hi"]):
+        ttsp("Hello, hope you are doing well")
+
+    if there_exists(["what is your name","what's your name","tell me your name"]):
+        ttsp("My name is Alpha")
+
+    if there_exists(["what's the time","tell me the time","what time is it"]):
+        ctime()
+        
+    if there_exists(["what's the date","tell me the date","what's today's date"]):
+        cdate()
+
+    if there_exists(["find on maps for","find on map for"]):
+        FindLocation()
+    
+    if there_exists(["find the file named"]):
+        FindFiles()
+
+    if there_exists(["find on google for","find for"]):
+        FindOnGoogle()
+
+    if there_exists(["find on youtube for"]):
+        FindOnYT()
+        
+    if there_exists(["login to instagram","log into instagram"]):
+        instalogin(insta_username,insta_password)
+        
+    if there_exists(["login to twitter","log into twitter"]):
+        twitterlogin(twitter_username,twitter_password)
+        
+    if there_exists(["login to facebook","log into facebook"]):
+        fblogin(fb_username,fb_password)
+        
+    if there_exists(["perform whatsapp automation"]):
+        autoWPReply()
+        
+    if there_exists(["roll a dice"]):
+        RollDice()
+        
+    if there_exists(["toss a coin"]):
+        CoinToss()
+
+    if there_exists(["exit", "bye bye", "quit", "goodbye"]):
+        ttsp("going offline")
+        exit()
+        driver.close()
+        
+
+def there_exists(terms):        # for checking existence of certain terms or phrases in voice
+    for term in terms:
+        if term in voice_data:
+            return True
+
+def ttsp(ttspeech):     # text to speech
+    engine = pyttsx3.init()
+    engine.say(ttspeech)
+    print("Alpha: "+ttspeech) 
+    engine.runAndWait()
+
+def instalogin(username,password):  # instagram login
+    driver.get('https://www.instagram.com/')
+    time.sleep(2)
+    instaUsername = driver.find_element_by_name("username").send_keys(username)
+    instaPwd = driver.find_element_by_name("password").send_keys(password)
+    instaLogin = driver.find_element_by_xpath("//*[@id='loginForm']/div/div[3]/button").click()
+    ttsp("Succesfully logged into instagram")
+
+def fblogin(username,password): # facebook login
+    driver.get('https://www.facebook.com/')
+    time.sleep(2)
+    fbUsername = driver.find_element_by_id("email").send_keys(username)
+    fbPwd = driver.find_element_by_id("pass").send_keys(password)
+    fbLogin = driver.find_element_by_name("login").click()
+    ttsp("Succesfully logged into facebook")
+
+def twitterlogin(username,password):    # twitter login
+    driver.get('https://twitter.com/login')
+    time.sleep(2)
+    twitterUsername = driver.find_element_by_name("session[username_or_email]").send_keys(username)
+    twitterPwd = driver.find_element_by_name("session[password]").send_keys(password)
+    twitterLogin = driver.find_element_by_xpath("//div[@data-testid='LoginForm_Login_Button']").click()
+    ttsp("Succesfully logged into twitter") 
+
+def autoWPReply():     # automated reply to people on whatsapp
+    driver.get("https://web.whatsapp.com/")
+    input("After QR code scan, press anything to proceed")
+    time.sleep(10)              # pauseeeee
+    for name in names:
+        targetprsn = driver.find_element_by_xpath('//span[@title="{}"]'.format(name))
+        targetprsn.click()
+
+        for i in range(1,3):
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+        recieved = driver.find_elements_by_css_selector("span.selectable-text.invisible-space.copyable-text")
+        msg = [message.text for message in recieved]
+
+        if msg[-1] == WPmsg:   # search for this specific text
+            myreply = driver.find_element_by_xpath("//*[@id='main']/footer/div[1]/div[2]/div/div[2]")
+            myreply.clear()
+            myreply.send_keys(WPif)    # send this text if condition is satisfied
+            myreply.send_keys(Keys.RETURN)
+        else :
+            myreply = driver.find_element_by_xpath("//*[@id='main']/footer/div[1]/div[2]/div/div[2]")
+            myreply.clear()
+            myreply.send_keys(WPelse)  # send this text if condition fails
+            myreply.send_keys(Keys.RETURN)
+    ttsp("Task is completed")
+
+def FindLocation(): # find location
+    location = voice_data.split("for")[-1]
+    driver.get('https://www.google.com/maps')
+    time.sleep(2)
+    searchbox = driver.find_element_by_id("searchboxinput")
+    searchbox.send_keys(location)
+    ttsp('Here is what I found for '+location+' on google maps')
+    time.sleep(1)
+    searchbox.send_keys(Keys.ENTER)
+
+def FindOnGoogle(): # find on google
+    search_term = voice_data.split("for")[-1]
+    url = f"https://google.com/search?q={search_term}"
+    webbrowser.get().open(url)
+    ttsp('Here is what I found for '+search_term+' on google')
+    
+def FindOnYT(): # find on youtube
+    search_term = voice_data.split("for")[-1]
+    url = f"https://www.youtube.com/results?search_query={search_term}"
+    webbrowser.get().open(url)
+    ttsp('Here is what I found for '+search_term+' on youtube')
+
+def CoinToss(): # coin toss
+    moves=["head", "tails"]   
+    move=random.choice(moves)
+    ttsp("It's a " + move)
+    
+def RollDice(): # roll a dice
+    moves=["1","2","3","4","5","6"]   
+    move=random.choice(moves)
+    ttsp("It's a " + move)
+
+def ctime():    # for time
+    current_time = datetime.datetime.now() 
+    # print ("Current Time is : ", current_time.hour,":",current_time.minute,":",current_time.second) 
+    ttsp ("Current Time is : "+ str(current_time.hour)+":"+str(current_time.minute)+":"+str(current_time.second)) 
+
+def cdate():    # for date
+    current_date = datetime.datetime.now() 
+    # print ("Current Date is : ", current_date.day,"/",current_date.month,"/",current_date.year)
+    ttsp ("Current Date is : "+ str(current_date.day)+"/"+str(current_date.month)+"/"+str(current_date.year))
+
+def FindFiles():   # for finding files
+    filename = voice_data.split("named")[-1]
+    result = []
+    for root, dir, files in os.walk(search_path):
+        if filename in files:
+            result.append(os.path.join(root, filename))
+    # print("\nFile is present in the following location/s : \n",result)
+    ttsp ("File is present in  "+result)
+
+
+while(1):
+    voice_data = record_audio() # for voice input
+    respond(voice_data) # for reply
