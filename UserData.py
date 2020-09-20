@@ -7,12 +7,8 @@
 # 6) find files in computer
 # 7) search on google and youtube
 # 8) roll a dice or toss a coin
-
-# 9) calculator
-# 10) screenshot
-# 11) search wikipedia for def
-# 12) input user name 
-
+ 
+ 
 YourName = "Ronik"       # Your Name
 
 fb_username = "your fb username"
