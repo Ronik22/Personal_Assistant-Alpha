@@ -7,9 +7,11 @@
 # 6) find files in computer
 # 7) search on google and youtube
 # 8) roll a dice or toss a coin
- 
- 
-YourName = "Ronik"       # Your Name
+# 9) calculator
+# 10) screenshot
+# 11) search wikipedia for def
+# 12) input user name 
+
 
 fb_username = "your fb username"
 fb_password = "your fb password"
@@ -26,3 +28,5 @@ WPif = "Test Successful"    # if cond reply
 WPelse = "This is an automated message for testing my python script...Please ignore"    # else cond reply
 
 search_path = "E:\\"    # for root directory
+
+screenshot_savedir = "E:\\screenshot1.jpg"     # directory for saving screenshot

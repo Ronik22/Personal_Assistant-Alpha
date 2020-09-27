@@ -8,12 +8,16 @@ import pyttsx3                      # pyttx3 should be installed
 import speech_recognition as sr     # speech recognition should be installed
 import pyaudio                      # pyaudio should be installed
 import webbrowser
+import wikipedia                    # wikipedia should be installed
+import pyautogui                    # pyautogui should be installed
 from UserData import *              # imports user data from UserData.py
 
 # works on google chrome for now
 driver = webdriver.Chrome()         # chromedriver should be installed
 
 r = sr.Recognizer()
+
+YourName = "Ronik"
 
 def record_audio(ask=False):    # speech to text
     with sr.Microphone() as source: # microphone as source
@@ -33,8 +37,23 @@ def record_audio(ask=False):    # speech to text
 
 def respond(voice_data):   # conditions
 
+    if there_exists(["change my name to"]):
+        search_term = voice_data.split("to ")[-1]
+        global YourName
+        YourName = search_term
+        ttsp("Username changed to "+YourName)
+
     if there_exists(["hello","hi"]):
         ttsp("Hello, hope you are doing well")
+
+    if there_exists(["good morning"]):
+        ttsp("Good Morning. Rise and shine and be on your own way")
+
+    if there_exists(["good night"]):
+        ttsp("Good night. May the most pleasant dreams greet you")
+
+    if there_exists(["good afternoon"]):
+        ttsp("Good Afternoon")
 
     if there_exists(["what is your name","what's your name","tell me your name"]):
         ttsp("My name is Alpha")
@@ -51,11 +70,17 @@ def respond(voice_data):   # conditions
     if there_exists(["find the file named"]):
         FindFiles()
 
+    if there_exists(["take screenshot"]):
+        ScreenShot()
+
     if there_exists(["find on google for","find for"]):
         FindOnGoogle()
 
     if there_exists(["find on youtube for"]):
         FindOnYT()
+
+    if there_exists(["calculate"]):
+        Calc()
         
     if there_exists(["login to instagram","log into instagram"]):
         instalogin(insta_username,insta_password)
@@ -75,10 +100,13 @@ def respond(voice_data):   # conditions
     if there_exists(["toss a coin"]):
         CoinToss()
 
+    if there_exists(["wikipedia for"]):
+        FindWiki()
+
     if there_exists(["exit", "bye bye", "quit", "goodbye"]):
         ttsp("going offline")
-        exit()
         driver.close()
+        exit()
         
 
 def there_exists(terms):        # for checking existence of certain terms or phrases in voice
@@ -173,6 +201,30 @@ def RollDice(): # roll a dice
     moves=["1","2","3","4","5","6"]   
     move=random.choice(moves)
     ttsp("It's a " + move)
+
+def ScreenShot():   # for screenshot
+    myScreenshot = pyautogui.screenshot()
+    myScreenshot.save(screenshot_savedir)
+    ttsp("Screenshot saved in "+screenshot_savedir)
+
+def Calc():     # a simple calculator
+    search_term = voice_data.split("calculate")[-1]
+    search_term=search_term.replace("plus", "+")
+    search_term=search_term.replace("minus", "-")
+    search_term=search_term.replace("multiplied by", "*")
+    search_term=search_term.replace("divided by", "/")
+    search_term=search_term.replace("into", "*")
+    search_term=search_term.replace("by", "/")
+    calc = eval(str(search_term))
+    ttsp("The result is "+str(calc))
+
+def FindWiki():     # find definition on wikipedia
+    search_term = voice_data.split("for")[-1]
+    try:
+        ttsp(wikipedia.summary(search_term, sentences=2))
+    except wikipedia.exceptions.DisambiguationError as e:
+        ttsp("Can you be a bit more specific ?  There are many results based on your search. I am printing a list of those below\n")
+        print (e.options)
 
 def ctime():    # for time
     current_time = datetime.datetime.now() 
