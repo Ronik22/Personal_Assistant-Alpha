@@ -16,3 +16,4 @@
 * Simple Calculator
 * Take Screenshot
 * Search wikipedia for definitions
+* Tell jokes
