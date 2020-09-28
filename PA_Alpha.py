@@ -10,6 +10,7 @@ import pyaudio                      # pyaudio should be installed
 import webbrowser
 import wikipedia                    # wikipedia should be installed
 import pyautogui                    # pyautogui should be installed
+import pyjokes                      # pyjokes should be installed
 from UserData import *              # imports user data from UserData.py
 
 # works on google chrome for now
@@ -99,6 +100,9 @@ def respond(voice_data):   # conditions
         
     if there_exists(["toss a coin"]):
         CoinToss()
+
+    if there_exists(["tell a joke","tell me a joke"]):
+        TellJokes()
 
     if there_exists(["wikipedia for"]):
         FindWiki()
@@ -244,6 +248,10 @@ def FindFiles():   # for finding files
             result.append(os.path.join(root, filename))
     # print("\nFile is present in the following location/s : \n",result)
     ttsp ("File is present in  "+result)
+
+def TellJokes():    # tell jokes
+    jokes = pyjokes.get_joke()
+    ttsp(jokes)
 
 
 while(1):

@@ -10,7 +10,8 @@
 # 9) calculator
 # 10) screenshot
 # 11) search wikipedia for def
-# 12) input user name 
+# 12) input user name
+# 13) tell jokes 
 
 
 fb_username = "your fb username"
