@@ -28,17 +28,27 @@ window.title("Personal Assistant | Alpha")
 window.geometry('700x900')
 window.minsize(700,900)
 
+def saveChats():
+        text_area_text = chatwindow.get('1.0', 'end-1c')
+        save_text = open("chat_history1.txt", 'w')
+        save_text.write(text_area_text)
+        save_text.close()
+
+def exitWindow():
+        driver.close()
+        exit()
+
 # toolbar menu
 main_menu=Menu(window,bg="#cedbff",tearoff=0)
 
 file_menu=Menu(main_menu,tearoff=0)
 file_menu.add_command(label='Help')
-file_menu.add_command(label='Save chat')
-file_menu.add_command(label='Exit')
+file_menu.add_command(label='Save chat',command=saveChats)
+file_menu.add_command(label='Exit',command=exitWindow)
 
 main_menu.add_cascade(label='Options', menu = file_menu)
 main_menu.add_command(label='About')
-main_menu.add_command(label='Exit')
+main_menu.add_command(label='Exit',command=exitWindow)
 window.config(menu=main_menu,bg='#cedbff')
 
 # hero frame
