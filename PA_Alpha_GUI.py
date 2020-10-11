@@ -38,11 +38,34 @@ def exitWindow():
         driver.close()
         exit()
 
+def Help():
+        helpframe=Toplevel(bg='white')
+        helpframe.geometry('400x400')
+        helpframe.minsize(400,400)
+        helpcontent = """ 
+Features ---------
+1) auto login into insta,fb,twitter
+2) auto wp reply
+3) search location
+4) get time
+5) get date
+6) find files in computer
+7) search on google and youtube
+8) roll a dice or toss a coin
+9) calculator
+10) screenshot
+11) search wikipedia for def
+12) input user name
+13) tell jokes 
+        """
+        hlp=Label(master=helpframe,text=helpcontent,justify=LEFT,bg='white',padx=15,pady=15).pack()
+        helpframe.mainloop()
+
 # toolbar menu
 main_menu=Menu(window,bg="#cedbff",tearoff=0)
 
 file_menu=Menu(main_menu,tearoff=0)
-file_menu.add_command(label='Help')
+file_menu.add_command(label='Help',command=Help)
 file_menu.add_command(label='Save chat',command=saveChats)
 file_menu.add_command(label='Exit',command=exitWindow)
 
