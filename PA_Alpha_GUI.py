@@ -17,6 +17,7 @@ import pyautogui                    # pyautogui should be installed
 import pyjokes                      # pyjokes should be installed
 from UserData import *              # imports user data from UserData.py
 import threading
+import requests
 
 # works on google chrome for now
 driver = webdriver.Chrome()         # chromedriver should be installed
@@ -57,6 +58,7 @@ Features ---------
 11) search wikipedia for def
 12) input user name
 13) tell jokes 
+14) check connection status for url
         """
         hlp=Label(master=helpframe,text=helpcontent,justify=LEFT,bg='white',padx=15,pady=15).pack()
         helpframe.mainloop()
@@ -102,6 +104,16 @@ msgwindow=Text(master=frame2,relief = GROOVE, bg="#fff", fg="#000",height=3)
 msgwindow.pack(fill=tk.X)
 
 ############# Features #############
+
+def checkConnection(INPUT):
+        website = INPUT.split("for")[-1]
+        status = requests.get(website).status_code
+        print (status)
+        if status==200:
+                ttsp("Status: Working")
+        else:
+                ttsp("Status: Not Working")
+
 
 def CoinToss(): # coin toss
     moves=["head", "tails"]   
@@ -287,6 +299,9 @@ def Take_input():
 
         if there_exists(["find on google for","find for"],INPUT):
                 FindOnGoogle(INPUT)
+
+        if there_exists(["check connection for"],INPUT):
+                checkConnection(INPUT)
 
         if there_exists(["find on youtube for"],INPUT):
                 FindOnYT(INPUT)
