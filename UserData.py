@@ -10,8 +10,7 @@
 # 9) calculator
 # 10) screenshot
 # 11) search wikipedia for def
-# 12) input user name
-# 13) tell jokes 
+# 12) tell jokes
 
 
 fb_username = "your fb username"
@@ -31,3 +30,5 @@ WPelse = "This is an automated message for testing my python script...Please ign
 search_path = "E:\\"    # for root directory
 
 screenshot_savedir = "E:\\screenshot1.jpg"     # directory for saving screenshot
+
+newsapi_key = 'your newsapi key'    # for news, create your own api key
