@@ -56,7 +56,7 @@ Features ---------
 9) calculator
 10) screenshot
 11) search wikipedia for def
-12) input user name
+12) fetch news
 13) tell jokes 
 14) check connection status for url
         """
@@ -114,6 +114,32 @@ def checkConnection(INPUT):
         else:
                 ttsp("Status: Not Working")
 
+def news(bool1): 
+        # main_url = f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi_key}"    # get top news from India
+        # main_url = f"https://newsapi.org/v2/top-headlines?sources=google-news&apiKey={newsapi_key}"   # get top google news
+        # main_url = f"https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey={newsapi_key}"    # get top techcrunch news
+        main_url = f"https://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey={newsapi_key}"      # get top news from TOI
+        open_page = requests.get(main_url).json() 
+        # import json
+        # print(json.dumps(open_page, indent = 1))
+        article = open_page["articles"]
+        results = [] 
+        
+        for ar in article: 
+            results.append(ar["title"])         # to fetch the titles only
+
+        ttsp("Here's what I got:")   
+        chatwindow.config(state='normal')
+
+        for i in range(len(results)): 
+            print(i + 1,": ", results[i]) 
+            if bool1==TRUE:
+                ttsp(str(i + 1)+": "+ results[i])
+            else:
+                chatwindow.insert(END, '\n'+str(i + 1)+": "+ results[i])
+        
+        chatwindow.insert(END,'\n')
+        chatwindow.config(state='disabled')				 
 
 def CoinToss(): # coin toss
     moves=["head", "tails"]   
@@ -287,6 +313,13 @@ def Take_input():
                 
         if there_exists(["what's the date","tell me the date","what's today's date"],INPUT):
                 cdate()
+
+        if there_exists(["show me the news"],INPUT):
+                bool1=FALSE
+                news(bool1)
+        if there_exists(["tell me the news"],INPUT):
+                bool1=TRUE
+                news(bool1)
 
         if there_exists(["find on maps for","find on map for"],INPUT):
                 FindLocation(INPUT)
