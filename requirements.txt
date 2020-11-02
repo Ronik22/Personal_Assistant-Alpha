@@ -10,6 +10,7 @@ sapi==0.2.0
 selenium==3.141.0
 SpeechRecognition==3.8.1
 wikipedia==1.4.0
+pyshorteners==1.0.1
 
 #If installation fails for PyAudio, try the commands below on the terminal by running it as admin 
 #pip install PyAudio‑0.2.11‑cp37‑cp37m‑win_amd64.whl
