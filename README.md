@@ -17,3 +17,4 @@
 * Take Screenshot
 * Search wikipedia for definitions
 * Tell jokes
+* Shorten URL
