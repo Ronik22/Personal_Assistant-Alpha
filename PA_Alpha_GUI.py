@@ -18,6 +18,7 @@ import pyjokes                      # pyjokes should be installed
 from UserData import *              # imports user data from UserData.py
 import threading
 import requests
+import pyshorteners                 # Pyshorteners should be installed
 
 # works on google chrome for now
 driver = webdriver.Chrome()         # chromedriver should be installed
@@ -59,6 +60,7 @@ Features ---------
 12) fetch news
 13) tell jokes 
 14) check connection status for url
+15) Shorten url
         """
         hlp=Label(master=helpframe,text=helpcontent,justify=LEFT,bg='white',padx=15,pady=15).pack()
         helpframe.mainloop()
@@ -187,6 +189,12 @@ def FindOnYT(INPUT): # find on youtube
     url = f"https://www.youtube.com/results?search_query={search_term}"
     webbrowser.get().open(url)
     ttsp('Here is what I found for '+search_term+' on youtube')
+
+def ShortenURL(INPUT): # shorten url
+    link = INPUT.split("shorten ")[-1]
+    s = pyshorteners.Shortener()
+    s_url = s.tinyurl.short(link)
+    ttsp('Shortened URL: '+s_url)
 
 def ScreenShot():   # for screenshot
     myScreenshot = pyautogui.screenshot()
@@ -335,6 +343,9 @@ def Take_input():
 
         if there_exists(["check connection for"],INPUT):
                 checkConnection(INPUT)
+
+        if there_exists(["shorten"],INPUT):
+                ShortenURL(INPUT)
 
         if there_exists(["find on youtube for"],INPUT):
                 FindOnYT(INPUT)
