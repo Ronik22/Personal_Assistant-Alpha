@@ -18,3 +18,4 @@
 * Search wikipedia for definitions
 * Tell jokes
 * Shorten URL
+* Get the weather info
