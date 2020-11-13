@@ -12,6 +12,7 @@ import wikipedia                    # wikipedia should be installed
 import pyautogui                    # pyautogui should be installed
 import pyjokes                      # pyjokes should be installed
 from UserData import *              # imports user data from UserData.py
+import requests
 
 print ("""
 
@@ -84,6 +85,9 @@ def respond(voice_data):   # conditions
 
     if there_exists(["find on maps for","find on map for"]):
         FindLocation()
+
+    if there_exists(["tell the weather","tell me today's weather","tell me the weather"]):
+        getWeather()
     
     if there_exists(["find the file named"]):
         FindFiles()
@@ -227,6 +231,23 @@ def ScreenShot():   # for screenshot
     myScreenshot = pyautogui.screenshot()
     myScreenshot.save(screenshot_savedir)
     ttsp("Screenshot saved in "+screenshot_savedir)
+
+def getWeather():
+    URL1 = 'https://wttr.in/?1AF'
+    URL2 = 'https://wttr.in/?0AF&format=4'
+    ERR_MSG = 'Error: could not reach the service. Status code: {}.'
+    CONN_ERR = 'Error: connection not available.'
+
+    try:
+        response1 = requests.get(URL1)
+        response2 = requests.get(URL2)
+        if response1.ok and response2.ok:
+            ttsp(response2.text)
+            print(response1.text)
+        else:
+            ttsp(ERR_MSG.format(response2.status_code))
+    except requests.exceptions.ConnectionError:
+        ttsp(CONN_ERR)
 
 def Calc():     # a simple calculator
     search_term = voice_data.split("calculate")[-1]
