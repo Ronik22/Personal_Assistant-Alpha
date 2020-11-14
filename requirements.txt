@@ -6,10 +6,12 @@ PyAutoGUI==0.9.50
 pyjokes==0.6.0
 pyttsx3==2.71
 requests==2.24.0
+requests-kerberos==0.12.0
 sapi==0.2.0
 selenium==3.141.0
 SpeechRecognition==3.8.1
 wikipedia==1.4.0
+pyperclip==1.8.0
 pyshorteners==1.0.1
 
 #If installation fails for PyAudio, try the commands below on the terminal by running it as admin 
