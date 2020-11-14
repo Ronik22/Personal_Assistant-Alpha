@@ -1,3 +1,4 @@
+from tkinter.constants import FALSE
 from selenium import webdriver      # selenium should be installed
 from selenium.webdriver.common.keys import Keys
 import os
@@ -12,7 +13,8 @@ import wikipedia                    # wikipedia should be installed
 import pyautogui                    # pyautogui should be installed
 import pyjokes                      # pyjokes should be installed
 from UserData import *              # imports user data from UserData.py
-import requests
+import requests                     # requests should be installed
+import pyperclip                    # pyperclip should be installed
 
 print ("""
 
@@ -100,9 +102,19 @@ def respond(voice_data):   # conditions
 
     if there_exists(["find on youtube for"]):
         FindOnYT()
+    
+    if there_exists(["generate a password"]):
+        pwdgen()
 
     if there_exists(["calculate"]):
         Calc()
+
+    if there_exists(["show me the news"]):
+        bool1=False
+        news(bool1)
+    if there_exists(["tell me the news"]):
+        bool1=True
+        news(bool1)
         
     if there_exists(["login to instagram","log into instagram"]):
         instalogin(insta_username,insta_password)
@@ -232,6 +244,29 @@ def ScreenShot():   # for screenshot
     myScreenshot.save(screenshot_savedir)
     ttsp("Screenshot saved in "+screenshot_savedir)
 
+def news(bool1): 
+        # main_url = f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi_key}"    # get top news from India
+        # main_url = f"https://newsapi.org/v2/top-headlines?sources=google-news&apiKey={newsapi_key}"   # get top google news
+        # main_url = f"https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey={newsapi_key}"    # get top techcrunch news
+        main_url = f"https://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey={newsapi_key}"      # get top news from TOI
+        open_page = requests.get(main_url).json() 
+        # import json
+        # print(json.dumps(open_page, indent = 1))
+        article = open_page["articles"]
+        results = [] 
+        
+        for ar in article: 
+            results.append(ar["title"])         # to fetch the titles only
+
+        ttsp("Here's what I got:")   
+
+        for i in range(len(results)): 
+            if bool1==True:
+                ttsp(str(i + 1)+": "+ results[i])
+            else:
+                print(str(i + 1)+": "+ results[i])
+            
+
 def getWeather():
     URL1 = 'https://wttr.in/?1AF'
     URL2 = 'https://wttr.in/?0AF&format=4'
@@ -259,6 +294,16 @@ def Calc():     # a simple calculator
     search_term=search_term.replace("by", "/")
     calc = eval(str(search_term))
     ttsp("The result is "+str(calc))
+
+def pwdgen():
+    charopt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*"
+    pwd = ''
+    for i in range (12):
+        c = random.choice(charopt)
+        pwd = pwd + c
+    pyperclip.copy(pwd)
+    ttsp("Your password has been generated and copied to clipboard")
+    print ("Your Password: "+pwd)
 
 def FindWiki():     # find definition on wikipedia
     search_term = voice_data.split("for")[-1]

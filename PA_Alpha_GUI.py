@@ -17,8 +17,9 @@ import pyautogui                    # pyautogui should be installed
 import pyjokes                      # pyjokes should be installed
 from UserData import *              # imports user data from UserData.py
 import threading
-import requests
+import requests                     # requests should be installed
 import pyshorteners                 # Pyshorteners should be installed
+import pyperclip                    # pyperclip should be installed
 
 # works on google chrome for now
 driver = webdriver.Chrome()         # chromedriver should be installed
@@ -42,8 +43,8 @@ def exitWindow():
 
 def Help():
         helpframe=Toplevel(bg='white')
-        helpframe.geometry('400x400')
-        helpframe.minsize(400,400)
+        helpframe.geometry('500x500')
+        helpframe.minsize(500,500)
         helpcontent = """ 
 Features ---------
 1) auto login into insta,fb,twitter
@@ -61,6 +62,8 @@ Features ---------
 13) tell jokes 
 14) check connection status for url
 15) Shorten url
+16) generate password
+17) get weather
         """
         hlp=Label(master=helpframe,text=helpcontent,justify=LEFT,bg='white',padx=15,pady=15).pack()
         helpframe.mainloop()
@@ -177,6 +180,33 @@ def cdate():    # for date
 def TellJokes():    # tell jokes
     jokes = pyjokes.get_joke()
     ttsp(jokes)
+
+def getWeather():
+#     URL1 = 'https://wttr.in/?1AF'
+    URL2 = 'https://wttr.in/?0AF&format=4'
+    ERR_MSG = 'Error: could not reach the service. Status code: {}.'
+    CONN_ERR = 'Error: connection not available.'
+
+    try:
+        response2 = requests.get(URL2)
+        if response2.ok:
+            ttsp(response2.text)
+        else:
+            ttsp(ERR_MSG.format(response2.status_code))
+    except requests.exceptions.ConnectionError:
+        ttsp(CONN_ERR)
+
+def pwdgen():
+    charopt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*"
+    pwd = ''
+    for i in range (12):
+        c = random.choice(charopt)
+        pwd = pwd + c
+    pyperclip.copy(pwd)
+    ttsp("Your password has been generated and copied to clipboard")
+    chatwindow.config(state='normal')
+    chatwindow.insert(END, 'Your Password: '+pwd+'\n')
+    chatwindow.config(state='disabled')
 
 def FindOnGoogle(INPUT): # find on google
     search_term = INPUT.split("for")[-1]
@@ -321,6 +351,12 @@ def Take_input():
                 
         if there_exists(["what's the date","tell me the date","what's today's date"],INPUT):
                 cdate()
+
+        if there_exists(["tell the weather","tell me today's weather","tell me the weather"],INPUT):
+            getWeather()
+
+        if there_exists(["generate a password"],INPUT):
+            pwdgen()
 
         if there_exists(["show me the news"],INPUT):
                 bool1=FALSE
