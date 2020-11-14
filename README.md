@@ -2,9 +2,10 @@
 
 ## *Voice Operated Personal Assistant* | *Python mini project*
 
+&nbsp;
 
 ## :diamond_shape_with_a_dot_inside: FEATURES:
-
+&nbsp;
 ###  :heavy_check_mark: CLI Version :
 
 * Get the current date and time
@@ -24,8 +25,7 @@
 * Search something in wikipedia
 * Fetch News
 
-
-
+&nbsp;
 ### :heavy_check_mark: GUI Version :
 
 * Get the current date and time
