@@ -3,19 +3,46 @@
 ## *Voice Operated Personal Assistant* | *Python mini project*
 
 
-## Features :
+## :diamond_shape_with_a_dot_inside: FEATURES:
 
-* Auto login into instagram, facebook, twitter
-* Auto whatsapp reply based on conditions
-* Search any location
-* Get the current time
-* Get the current date
+###  :heavy_check_mark: CLI Version :
+
+* Get the current date and time
+* Search any location on map
+* Tell the weather
 * Find files in computer
-* Search on google and youtube
-* Roll a dice or toss a coin
-* Simple Calculator
-* Take Screenshot
-* Search wikipedia for definitions
-* Tell jokes
-* Shorten URL
-* Get the weather info
+* Take screenshot
+* Search on google
+* Search on youtube
+* Generate a password
+* Perform simple calculations
+* Log into instagram, twitter, facebook
+* Send message in whatsapp (condition may be added with an alternative message)
+* Roll a dice
+* Toss a coin 
+* Tell a joke
+* Search something in wikipedia
+* Fetch News
+
+
+
+### :heavy_check_mark: GUI Version :
+
+* Get the current date and time
+* Search any location on map
+* Tell the weather
+* Find files in computer
+* Take screenshot
+* Search on google
+* Search on youtube
+* Generate a password
+* Perform simple calculations
+* Log into instagram, twitter, facebook
+* Send message in whatsapp (condition may be added with an alternative message)
+* Roll a dice
+* Toss a coin 
+* Tell a joke
+* Search something in wikipedia
+* Check connection status for url
+* Shorten url
+* Fetch News
