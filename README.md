@@ -1,6 +1,4 @@
-# Personal Assistant (*Alpha*)
-
-## *Voice Operated Personal Assistant* | *Python*
+![Personal_Assistant-Alpha](https://socialify.git.ci/Ronik22/Personal_Assistant-Alpha/image?language=1&owner=1&pattern=Circuit%20Board&theme=Light)
 
 &nbsp;
 
